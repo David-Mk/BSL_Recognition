@@ -31,10 +31,10 @@ for action in actions:
   
 # Data preparation
 X = np.array(sequences)
+print(X.shape)
 
-# REMARK??? int or float?
-y = to_categorical(labels).astype(float)
+y = to_categorical(labels).astype(int)
+print(y.shape)
 
 # Train-test-split fitting
 X_train, X_test, y_train, y_test = tts(X, y, test_size=0.05)
-

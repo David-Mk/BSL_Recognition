@@ -14,6 +14,7 @@ mp_holistic = mp.solutions.holistic
 # Data exporting path
 DATA_PATH = os.path.join('bsl_data')
 
+
 # Frame models (each model is word, letter or number from BSL dictionary) 
 actions = np.array(['apartament', 'home', 'car'])
 
@@ -75,7 +76,7 @@ def landmarks(image, result):
 # Adding coordinates and points to arrays
 def extract_keypoints(result):
 
-    # OPTION WITHOUT LOGICAL CONTROL
+    # OPTION WITHOUT LOGICAL CONTROL (nor reliable, because when fuction fails to extract landamrks, recording is throwing an exception)
     #face = []
     #
     #face = np.array([[r.x, r.y, r.z, r.visibility]])
@@ -170,7 +171,7 @@ def main():
 
 main()
 
-# OPTION IN SINGLE FUNCTION
+# OPTION IN SINGLE FUNCTION (more simple, but less efficient method of data recording)
 # Drawing utilities
 #mp_draw = mp.solutions.drawing_utils
 #
