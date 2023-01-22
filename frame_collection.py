@@ -18,8 +18,8 @@ DATA_PATH = os.path.join('bsl_data')
 # Frame models (each model is word, letter or number from BSL dictionary) 
 actions = np.array(['apartament', 'car', 'home'])
 
-# Number of videos and videos length
-sequences_count = 1
+# Number of videos and videos length. For all recordings, numbers shall be the same
+sequences_count = 30
 sequences_length = 20
 
 for a in actions:

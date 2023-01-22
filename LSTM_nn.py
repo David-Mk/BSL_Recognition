@@ -16,7 +16,9 @@ model = Sequential()
 
 # Adding layers. Density is customizable. Activation functions are defined, because of complexity of data. ReLu is used, because of it's simplicity during training
 # Since TF with LSTM is used, first 2 layers have return sequences and last one is set on False
-model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (30, 1662)))
+
+# Set dimensions, according to the shape of the training data
+model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (20, 1662)))
 model.add(LSTM(128, return_sequences = True, activation = 'relu'))
 model.add(LSTM(64, return_sequences = False, activation = 'relu'))
 
