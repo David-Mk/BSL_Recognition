@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split as tts
 import tensorflow as tf
 from tensorflow import keras
-#from tensorflow.python.keras.utils import to_categorical
+from keras.utils import to_categorical
 import numpy as np
 import os
 
@@ -35,12 +35,13 @@ def main():
     X = np.array(sequences)
     print(X.shape)
 
+    y = to_categorical(labels).astype(int)
+    print(y.shape)
+
+    # Train-test-split fitting
+    X_train, X_test, y_train, y_test = tts(X, y, test_size=0.05)
+
+
 if __name__ == "__main__":
 
     main()
-
-#y = to_categorical(labels).astype(int)
-#print(y.shape)
-#
-## Train-test-split fitting
-#X_train, X_test, y_train, y_test = tts(X, y, test_size=0.05)

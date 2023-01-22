@@ -11,12 +11,12 @@ mp_draw = mp.solutions.drawing_utils
 # Detection models
 mp_holistic = mp.solutions.holistic
 
-# OPTION 1 - path as global variable 
+# OPTION 1:path as global variable (currently working)
 # Data exporting path
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['test1', 'test2'])
+actions = np.array(['apartament', 'car', 'home'])
 
 # Number of videos and videos length
 sequences_count = 1
@@ -121,7 +121,7 @@ capture = cv2.VideoCapture(0)
 #
 def main():
 
-    # OPTION 2: path inside the function  
+    # OPTION 2: path inside the function (problems with passing arguments) 
     # global DATA_PATH 
     # DATA_PATH = os.path.join('bsl_data')
     # 
