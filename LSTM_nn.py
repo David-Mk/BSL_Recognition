@@ -4,7 +4,7 @@ from tensorflow.python.keras.layers import LSTM, Dense
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.callbacks import TensorBoard
 
-from frame_collection import *
+from frame_collection import actions
 
 # Input directory
 logs_dir = os.path.join('Logs')
@@ -15,7 +15,7 @@ tb_checker = TensorBoard(log_dir = logs_dir)
 model = Sequential()
 
 # Adding layers. Density is customizable. Activation functions are defined, because of complexity of data. ReLu is used, because of it's simplicity during training
-# Since TF with LSTM is used, first 2 layers return sequences and last one doesn't
+# Since TF with LSTM is used, first 2 layers have return sequences and last one is set on False
 model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (30, 1662)))
 model.add(LSTM(128, return_sequences = True, activation = 'relu'))
 model.add(LSTM(64, return_sequences = False, activation = 'relu'))

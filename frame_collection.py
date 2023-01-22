@@ -11,15 +11,15 @@ mp_draw = mp.solutions.drawing_utils
 # Detection models
 mp_holistic = mp.solutions.holistic
 
+# OPTION 1 - path as global variable 
 # Data exporting path
 DATA_PATH = os.path.join('bsl_data')
 
-
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['apartament', 'home', 'car'])
+actions = np.array(['test1', 'test2'])
 
 # Number of videos and videos length
-sequences_count = 30
+sequences_count = 1
 sequences_length = 20
 
 for a in actions:
@@ -118,13 +118,38 @@ def extract_keypoints(result):
 # Camera capture
 capture = cv2.VideoCapture(0)
 
+#
 def main():
 
+    # OPTION 2: path inside the function  
+    # global DATA_PATH 
+    # DATA_PATH = os.path.join('bsl_data')
+    # 
+    # # Frame models (each model is word, letter or number from BSL dictionary) 
+    # #global actions 
+    # actions = np.array(['test1', 'test2'])
+    # 
+    # # Number of videos and videos length
+    # #global sequences_count
+    # sequences_count = 1
+    # 
+    # #global sequences_length
+    # sequences_length = 20
+
+    
+    for a in actions:
+    
+        for s in range(sequences_count):
+            try:
+                os.makedirs(os.path.join(DATA_PATH, a, str(s)))
+            except:
+                pass
+    
     # Load Mediapipe model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
 
         # while capture.isOpened():
-        
+            
         # Range of capturing frames and adding landmarks to them
         for a in actions:
             
@@ -169,7 +194,9 @@ def main():
         cv2.destroyAllWindows()
 
 
-main()
+if __name__ == "__main__":
+
+    main()
 
 # OPTION IN SINGLE FUNCTION (more simple, but less efficient method of data recording)
 # Drawing utilities
