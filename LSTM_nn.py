@@ -2,13 +2,14 @@ import os
 # Supress TF warnings and informative messages
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from tensorflow.python.keras.layers import LSTM, Dense
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.callbacks import TensorBoard
+import numpy as np
+
+from keras.layers import LSTM, Dense
+from keras.models import Sequential
+from keras.callbacks import TensorBoard
 
 from frame_collection import actions
-
-from data_processing import X_train, X_test, y_train, y_test
+from data_processing import main as data_main
 
 # Input directory
 logs_dir = os.path.join('Logs')
@@ -16,6 +17,8 @@ tb_checker = TensorBoard(log_dir = logs_dir)
 
 def main():
     
+    X_train, X_test, y_train, y_test, result = data_main()
+
     # Neural model is Long short-term memory (LSTM). It's used for better performance of Sequential model training
     # Defining the model as Sequential (The Sequential model is a linear stack of layers.)
     model = Sequential()
@@ -29,6 +32,9 @@ def main():
     model.add(LSTM(64, return_sequences = False, activation = 'relu'))
 
     # For image classification are used Dense Layers
+    #  return_sequences = True,
+    # return_sequences = True,
+
     model.add(Dense(64, activation = 'relu'))
     model.add(Dense(32, activation = 'relu'))
 
@@ -39,8 +45,15 @@ def main():
     model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics='categorical_accuracy')
 
     # Fit model and set training process
-    model.fit(X_train, y_train, epochs=3000, callback=[tb_checker])
+    model.fit(X_train, y_train, epochs=1000, callbacks=[tb_checker])
 
+    # Summary of model training process
+    print(model.summary())
+
+    # Make predictions
+    print(actions[np.argmax(result[1])])
+    print(actions[np.argmax(y_test[1])])
+    
 if __name__ == "__main__":
 
     main()

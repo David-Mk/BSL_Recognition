@@ -40,7 +40,6 @@ def main():
     
     print('Sequences shape:\n', np.array(sequences).shape)
 
-    
     # Data preparation
     X = np.array(sequences)
     print('X array shape:\n', X.shape)
@@ -49,12 +48,14 @@ def main():
     print('y array shape:\n', y.shape)
 
     # Train-test-split. Test size is 5% from whole data
+     
     X_train, X_test, y_train, y_test = tts(X, y, test_size=0.05)
     print('X_train array shape:\n', X_train.shape)
     print('X_test array shape:\n', X_test.shape)
     print('y_train array shape:\n', y_train.shape)
     print('y_test array shape:\n', y_test.shape)
     
+    return X_train, X_test, y_train, y_test, result
 
 if __name__ == "__main__":
 

@@ -4,6 +4,8 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
+from keras.models import Sequential
+
 
 from frame_collection import detection, extract_keypoints, landmarks 
 
@@ -13,6 +15,10 @@ mp_draw = mp.solutions.drawing_utils
 # Detection models
 mp_holistic = mp.solutions.holistic
 
+
+# Possible fix??
+model = Sequential()
+model.load_weights('recognition.h5')
 
 
 
