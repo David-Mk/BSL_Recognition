@@ -136,14 +136,14 @@ def main():
     # #global sequences_length
     # sequences_length = 20
 
-    
-    for a in actions:
-    
-        for s in range(sequences_count):
-            try:
-                os.makedirs(os.path.join(DATA_PATH, a, str(s)))
-            except:
-                pass
+    # DOUBLE??
+    #for a in actions:
+    #
+    #    for s in range(sequences_count):
+    #        try:
+    #            os.makedirs(os.path.join(DATA_PATH, a, str(s)))
+    #        except:
+    #            pass
     
     # Load Mediapipe model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:

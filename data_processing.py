@@ -48,13 +48,13 @@ def main():
     y = to_categorical(labels).astype(int)
     print('y array shape:\n', y.shape)
 
-    # Train-test-split fitting. Test size is 5% from whole data
+    # Train-test-split. Test size is 5% from whole data
     X_train, X_test, y_train, y_test = tts(X, y, test_size=0.05)
     print('X_train array shape:\n', X_train.shape)
     print('X_test array shape:\n', X_test.shape)
     print('y_train array shape:\n', y_train.shape)
     print('y_test array shape:\n', y_test.shape)
-
+    
 
 if __name__ == "__main__":
 
