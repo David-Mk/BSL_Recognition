@@ -1,12 +1,13 @@
 import os
-# Supress TF warnings and informative messages
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+# Supress TF console warnings and informative messages
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import numpy as np
-
 from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.callbacks import TensorBoard
+from sklearn.metrics import multilabel_confusion_matrix as mcm, accuracy_score as accuracy
 
 from frame_collection import actions
 from data_processing import main as data_main
@@ -25,16 +26,12 @@ def main():
 
     # Adding layers. Density is customizable. Activation functions are defined, because of complexity of data. ReLu is used, because of it's simplicity during training
     # Since TF with LSTM is used, first 2 layers have return sequences and last one is set on False
-
     # ADD! Set dimensions, according to the shape of the training data
     model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (20, 1662)))
     model.add(LSTM(128, return_sequences = True, activation = 'relu'))
     model.add(LSTM(64, return_sequences = False, activation = 'relu'))
 
     # For image classification are used Dense Layers
-    #  return_sequences = True,
-    # return_sequences = True,
-
     model.add(Dense(64, activation = 'relu'))
     model.add(Dense(32, activation = 'relu'))
 
@@ -45,14 +42,27 @@ def main():
     model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics='categorical_accuracy')
 
     # Fit model and set training process
-    model.fit(X_train, y_train, epochs=1000, callbacks=[tb_checker])
+    model.fit(X_train, y_train, epochs=600, callbacks=[tb_checker])
 
-    # Summary of model training process
+    # Summary and evaluation of model training process 
     print(model.summary())
 
+    # yhat = model.predict(X_train)
+    # yhat = np.argmax(yhat, axis = 1).tolist()
+    # 
+    # ytrue = np.argmax(y_test, axis = 1).tolist()
+    # 
+    # mcm(ytrue, yhat)
+    #
+    # print(mcm)
+    # print(accuracy(ytrue, yhat))
+    
     # Make predictions
     print(actions[np.argmax(result[1])])
     print(actions[np.argmax(y_test[1])])
+    
+    # Save model
+    model.save('recognition.h5')
     
 if __name__ == "__main__":
 

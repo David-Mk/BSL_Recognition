@@ -11,7 +11,6 @@ mp_draw = mp.solutions.drawing_utils
 # Detection models
 mp_holistic = mp.solutions.holistic
 
-# OPTION 1:path as global variable (currently working)
 # Data exporting path
 DATA_PATH = os.path.join('bsl_data')
 
@@ -197,45 +196,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-
-# OPTION IN SINGLE FUNCTION (more simple, but less efficient method of data recording)
-# Drawing utilities
-#mp_draw = mp.solutions.drawing_utils
-#
-# Detection models
-#mp_holistic = mp.solutions.holistic
-#
-# Camera capture
-#capture = cv2.VideoCapture(0)
-#
-# def detection():
-#
-#
-#    # Load Mediapipe model
-#    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
-#
-#        while capture.isOpened():
-#
-#            ret, frame = capture.read()
-#
-#            frame = cv2.flip(frame, 1)
-#
-#            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#            image.flags.writeable = False
-#            result = hol.process(image)
-#            image.flags.writeable = True
-#            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-#
-#            print(result)
-#
-#            cv2.imshow('Camera feed', frame)
-#
-#
-#            # Break
-#            if cv2.waitKey(1) & 0xFF == ord('q'):
-#                break
-#
-#        capture.release()
-#        cv2.destroyAllWindows()
-#
-# detection()
