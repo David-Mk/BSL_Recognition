@@ -15,7 +15,7 @@ mp_holistic = mp.solutions.holistic
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['apartament', 'car', 'home'])
+actions = np.array(['test'])
 
 # Number of videos and videos length. For all recordings, numbers shall be the same
 sequences_count = 30
@@ -72,7 +72,7 @@ def landmarks(image, result):
         mp_draw.DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2))
 
 
-# Adding coordinates and points to arrays
+# Add coordinates and points to arrays
 def extract_keypoints(result):
 
     # OPTION WITHOUT LOGICAL CONTROL (nor reliable, because when fuction fails to extract landamrks, recording is throwing an exception)
@@ -106,7 +106,7 @@ def extract_keypoints(result):
     #    data = np.array([r.x, r.y, r.z])
     #    rhand.append(data)
     
-    # Adding points to arrays and handling undetected ot unregognized parts
+    # Add points to arrays and handling undetected ot unregognized parts
     body = np.array([[r.x, r.y, r.z, r.visibility] for r in result.pose_landmarks.landmark]).flatten() if result.pose_landmarks else np.zeros(132)
     face = np.array([[r.x, r.y, r.z] for r in result.face_landmarks.landmark]).flatten() if result.face_landmarks else np.zeros(1404)
     rhand = np.array([[r.x, r.y, r.z] for r in result.right_hand_landmarks.landmark]).flatten() if result.right_hand_landmarks else np.zeros(63)
@@ -115,9 +115,8 @@ def extract_keypoints(result):
     return np.concatenate([body, face, rhand, lhand])
 
 # Camera capture
-capture = cv2.VideoCapture(0)
+capture = cv2.VideoCapture(1)
 
-#
 def main():
 
     # OPTION 2: path inside the function (problems with passing arguments) 
@@ -144,12 +143,12 @@ def main():
     #        except:
     #            pass
     
-    # Load Mediapipe model
+    # Load Mediapipe detection model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
 
         # while capture.isOpened():
             
-        # Range of capturing frames and adding landmarks to them
+        # Range of captured frames and added landmarks to them
         for a in actions:
             
             for s in range(sequences_count):
@@ -163,7 +162,7 @@ def main():
                     # Make detection
                     image, result = detection(frame, hol)
 
-                    # Adding landrmarks
+                    # Add landrmarks
                     landmarks(image, result)
                     
                     # Collection process information

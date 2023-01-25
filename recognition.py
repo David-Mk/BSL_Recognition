@@ -1,13 +1,16 @@
+import os
+# Supress TF console warnings and informative messages
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import cv2
 import numpy as np
-import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-from keras.models import Sequential
+import tensorflow as tf
+from keras.models import load_model
 
-
-from frame_collection import detection, extract_keypoints, landmarks 
+from frame_collection import detection, extract_keypoints, landmarks, actions
 
 # Drawing utilities
 mp_draw = mp.solutions.drawing_utils
@@ -15,23 +18,22 @@ mp_draw = mp.solutions.drawing_utils
 # Detection models
 mp_holistic = mp.solutions.holistic
 
-
 # Possible fix??
-model = Sequential()
-model.load_weights('recognition.h5')
+# Load trained model
+# model.load_weights('recognition.h5')
+loaded_model = load_model('recognition.h5')
 
-
-
-sequence, sentence = []
+# Detection variables
+sequence = []
+sentence = []
 treshold = 0.4
 
-# Camera capture
+# Camera capture. In case of errors, try swap number inside (camera index) or change them with frame_collection.py
 capture = cv2.VideoCapture(0)
-
 
 def main():
 
-    # Load Mediapipe model
+    # Load Mediapipe detection model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
 
         while capture.isOpened():
@@ -44,18 +46,19 @@ def main():
             image, result = detection(frame, hol)
             print(result)
             
-            # Adding landrmarks
+            # Add landrmarks
             landmarks(image, result)
 
+            # Make predictions
             keypoints = extract_keypoints(result)
             sequence.append(keypoints)
-            sequence = sequence[-30:]
+            sequence = sequence[:30]
             
             if len(sequence) == 30:
-                res = model.predict(np.expand_dims(sequence, axis=0))[0]
-                print(res)
+                res = loaded_model.predict(np.expand_dims(sequence, axis=0))[0]
+                print(actions[np.argmax(res)])
             
-            cv2.imshow('Camera feed', frame)
+            cv2.imshow('Camera feed', image)
 
 
             # Break

@@ -1,9 +1,8 @@
-import numpy as np
 import os
-
 # Supress TF console warnings and informative messages
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
+import numpy as np
 from sklearn.model_selection import train_test_split as tts
 import tensorflow as tf
 from tensorflow import keras
@@ -13,7 +12,7 @@ from frame_collection import actions, sequences_count, sequences_length, DATA_PA
 
 def main():
 
-    # Labeling categories
+    # Label categories
     label_names = {label:num for num, label in enumerate(actions)}
 
     print('Labels shape:\n', label_names)
