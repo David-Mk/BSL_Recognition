@@ -15,7 +15,7 @@ mp_holistic = mp.solutions.holistic
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['test'])
+actions = np.array(['apartament', 'car', 'home'])
 
 # Number of videos and videos length. For all recordings, numbers shall be the same
 sequences_count = 30
@@ -182,12 +182,14 @@ def main():
                     npy_path = os.path.join(DATA_PATH, a, str(s), str(frame_num))
                     np.save(npy_path, keypoints)
 
+                    # Show the screen    
                     cv2.imshow('Camera feed', image)
 
             # Break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-
+            
+        # Remove camera after break
         capture.release()
         cv2.destroyAllWindows()
 
