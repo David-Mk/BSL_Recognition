@@ -28,14 +28,31 @@ loaded_model = load_model('recognition.h5')
 # sentence = []
 # treshold = 0.4
 
+# Possiblities box
+def prober(res, actions, input_frame):
+    
+    output_frame = input_frame.copy()
+    
+    # List all possibilities and add dynamic coloring as bar charts    
+    for num, prob in enumerate(res):
+        cv2.rectangle(output_frame, (0,60+num*40), (int(prob*100), 90+num*40), (127,255,0), -1)
+        cv2.putText(output_frame, actions[num], (0, 85+num*40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+        
+    return output_frame
+    
+
 # Camera capture. In case of errors, try swap number inside (camera index) or change them with frame_collection.py
 capture = cv2.VideoCapture(0)
 
 def main():
 
+    # Frame recording
     sequence = []
     sentence = []
-    threshold = 0.4
+    
+    # Threshold for detection, currently 70%
+    threshold = 0.7
+    
     # Load Mediapipe detection model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
 
@@ -47,7 +64,7 @@ def main():
 
             # Make detection
             image, result = detection(frame, hol)
-            print(result)
+            #print(result)
             
             # Add landrmarks
             landmarks(image, result)
@@ -63,25 +80,29 @@ def main():
                 res = loaded_model.predict(np.expand_dims(sequence, axis=0))[0]
                 print(actions[np.argmax(res)])
             
-                # Visualization
+                # Visualization logic
                 if res[np.argmax(res)] > threshold:
                     if len(sentence) > 0:
                         if actions[np.argmax(res)] != sentence[-1]:
 
                             sentence.append(actions[np.argmax(res)])
-                        else:
-
-                            sentence.append(actions[np.argmax(res)])
+                    else:
+                        
+                        sentence.append(actions[np.argmax(res)])
 
                 # Get last 5 values of predictions        
                 if len(sentence) > 5:
 
                     sentence = sentence[-5:]
 
+                # Draw possibilities chart
+                image = prober(res, actions, image)            
+            
+            # FIX!!! Text doesn't display correctly
             # Draw rectangle and text on camera feed
             cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
-            cv2.putText(image, ' '.join(sentence), (3,30), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            cv2.putText(image, ' '.join(sentence), (3,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+
                     
             # Show the screen    
             cv2.imshow('Camera feed', image)
