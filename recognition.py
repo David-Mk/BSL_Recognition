@@ -42,16 +42,19 @@ def prober(res, actions, input_frame):
     
 
 # Camera capture. In case of errors, try swap number inside (camera index) or change them with frame_collection.py
-capture = cv2.VideoCapture(0)
+#capture = cv2.VideoCapture(0)
 
 def main():
 
     # Frame recording
     sequence = []
     sentence = []
+    predictions = []
     
-    # Threshold for detection, currently 70%
-    threshold = 0.7
+    # Threshold for detection, currently 40%
+    threshold = 0.4
+    
+    capture = cv2.VideoCapture(0)
     
     # Load Mediapipe detection model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
@@ -76,28 +79,31 @@ def main():
             # Number of sequences should be the same as sequences_length in frame_collection.py
             sequence = sequence[-20:]
             
+            # ADD! Smooth transition between frames
             if len(sequence) == 20:
+                
                 res = loaded_model.predict(np.expand_dims(sequence, axis=0))[0]
                 print(actions[np.argmax(res)])
+                predictions.append(np.argmax(res))
+
             
                 # Visualization logic
-                if res[np.argmax(res)] > threshold:
-                    if len(sentence) > 0:
-                        if actions[np.argmax(res)] != sentence[-1]:
+                if np.unique(predictions[-10:])[0]==np.argmax(res): 
+                    if res[np.argmax(res)] > threshold: 
 
+                        if len(sentence) > 0: 
+                            if actions[np.argmax(res)] != sentence[-1]:
+                                sentence.append(actions[np.argmax(res)])
+                        else:
                             sentence.append(actions[np.argmax(res)])
-                    else:
-                        
-                        sentence.append(actions[np.argmax(res)])
 
                 # Get last 5 values of predictions        
                 if len(sentence) > 5:
-
                     sentence = sentence[-5:]
 
-                # Draw possibilities chart
-                image = prober(res, actions, image)            
-            
+                    ## Draw possibilities chart
+                    image = prober(res, actions, image)
+
             # FIX!!! Text doesn't display correctly
             # Draw rectangle and text on camera feed
             cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
