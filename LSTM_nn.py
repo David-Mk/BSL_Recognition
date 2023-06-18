@@ -17,7 +17,7 @@ tb_checker = TensorBoard(log_dir = logs_dir)
 
 def main():
     
-    X_train, X_test, y_train, y_test, result = data_main()
+    X_train, y_train, result = data_main()
 
     # Neural model is Long short-term memory (LSTM). It's used for better performance of Sequential model training
     # Defining the model as Sequential (The Sequential model is a linear stack of layers)
@@ -40,8 +40,8 @@ def main():
     # Add Adam optimizer and compute loss function 
     model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics='categorical_accuracy')
 
-    # Fit model and set training process
-    model.fit(X_train, y_train, epochs=600, callbacks=[tb_checker])
+    # Fit model and set training process 
+    model.fit(X_train, y_train, epochs=300, callbacks=[tb_checker])
 
     # Summary and evaluation of model training process 
     print(model.summary())

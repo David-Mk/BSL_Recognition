@@ -23,10 +23,7 @@ mp_holistic = mp.solutions.holistic
 # model.load_weights('recognition.h5')
 loaded_model = load_model('recognition.h5')
 
-# Detection variables
-# sequence = []
-# sentence = []
-# treshold = 0.4
+#words_history = open('detected_words.txt', 'w') 
 
 # Possiblities box
 def prober(res, actions, input_frame):
@@ -40,10 +37,6 @@ def prober(res, actions, input_frame):
         
     return output_frame
     
-
-# Camera capture. In case of errors, try swap number inside (camera index) or change them with frame_collection.py
-#capture = cv2.VideoCapture(0)
-
 def main():
 
     # Frame recording
@@ -54,6 +47,7 @@ def main():
     # Threshold for detection, currently 40%
     threshold = 0.4
     
+    # Camera capture. In case of errors, try swap number inside (camera index) or change them with frame_collection.py
     capture = cv2.VideoCapture(0)
     
     # Load Mediapipe detection model
@@ -101,10 +95,11 @@ def main():
                 if len(sentence) > 5:
                     sentence = sentence[-5:]
 
-                    ## Draw possibilities chart
-                    image = prober(res, actions, image)
+                #words_history.write(' '.join(sentence) + ' ')
+                
+                # Draw possibilities chart
+                image = prober(res, actions, image)
 
-            # FIX!!! Text doesn't display correctly
             # Draw rectangle and text on camera feed
             cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
             cv2.putText(image, ' '.join(sentence), (3,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)

@@ -107,41 +107,24 @@ def extract_keypoints(result):
     #    rhand.append(data)
     
     # Add points to arrays and handling undetected ot unregognized parts
-    body = np.array([[r.x, r.y, r.z, r.visibility] for r in result.pose_landmarks.landmark]).flatten() if result.pose_landmarks else np.zeros(132)
-    face = np.array([[r.x, r.y, r.z] for r in result.face_landmarks.landmark]).flatten() if result.face_landmarks else np.zeros(1404)
-    rhand = np.array([[r.x, r.y, r.z] for r in result.right_hand_landmarks.landmark]).flatten() if result.right_hand_landmarks else np.zeros(63)
-    lhand = np.array([[r.x, r.y, r.z] for r in result.left_hand_landmarks.landmark]).flatten() if result.left_hand_landmarks else np.zeros(63)
+    body = np.array([[r.x, r.y, r.z, r.visibility] 
+                    for r in result.pose_landmarks.landmark]).flatten() if result.pose_landmarks else np.zeros(132)
+    
+    face = np.array([[r.x, r.y, r.z] 
+                    for r in result.face_landmarks.landmark]).flatten() if result.face_landmarks else np.zeros(1404)
+    
+    rhand = np.array([[r.x, r.y, r.z] 
+                    for r in result.right_hand_landmarks.landmark]).flatten() if result.right_hand_landmarks else np.zeros(63)
+    
+    lhand = np.array([[r.x, r.y, r.z] 
+                    for r in result.left_hand_landmarks.landmark]).flatten() if result.left_hand_landmarks else np.zeros(63)
     
     return np.concatenate([body, face, rhand, lhand])
 
-# Camera capture
+# Camera capture. In case of errors, try swap number inside (camera index) or change them with recognition.py
 capture = cv2.VideoCapture(1)
 
 def main():
-
-    # OPTION 2: path inside the function (problems with passing arguments) 
-    # global DATA_PATH 
-    # DATA_PATH = os.path.join('bsl_data')
-    # 
-    # # Frame models (each model is word, letter or number from BSL dictionary) 
-    # #global actions 
-    # actions = np.array(['test1', 'test2'])
-    # 
-    # # Number of videos and videos length
-    # #global sequences_count
-    # sequences_count = 1
-    # 
-    # #global sequences_length
-    # sequences_length = 20
-
-    # DOUBLE??
-    #for a in actions:
-    #
-    #    for s in range(sequences_count):
-    #        try:
-    #            os.makedirs(os.path.join(DATA_PATH, a, str(s)))
-    #        except:
-    #            pass
     
     # Load Mediapipe detection model
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hol:
