@@ -17,7 +17,7 @@ mp_holistic = mp.solutions.holistic
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['болен', 'здрав', 'лечение'])
+actions = np.array(['болен', 'здрав', 'лечение', 'апартамент', 'къща'])
 
 # Number of videos and videos length. For all recordings, numbers shall be the same
 sequences_count = 30
@@ -31,7 +31,7 @@ for a in actions:
             pass
 
 # Here are stored all recorded words
-vocabulary = np.array(['апартамент', 'кола', 'къща'])
+vocabulary = np.array(['апартамент', 'къща', 'болен', 'здрав', 'лечение'])
 
 
 # Detection and color handling

@@ -6,7 +6,6 @@ apartament : апартамент;
 # B
 
 # C
-car : кола;
 
 # D
 
