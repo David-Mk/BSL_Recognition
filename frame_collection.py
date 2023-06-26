@@ -4,6 +4,8 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
+from PIL import ImageFont, ImageDraw, Image
+
 
 # Drawing utilities
 mp_draw = mp.solutions.drawing_utils
@@ -15,11 +17,11 @@ mp_holistic = mp.solutions.holistic
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['apartament', 'car', 'home'])
+actions = np.array(['болен', 'здрав', 'лечение'])
 
 # Number of videos and videos length. For all recordings, numbers shall be the same
 sequences_count = 30
-sequences_length = 20
+sequences_length = 30
 
 for a in actions:
     for s in range(sequences_count):
@@ -27,6 +29,9 @@ for a in actions:
             os.makedirs(os.path.join(DATA_PATH, a, str(s)))
         except:
             pass
+
+# Here are stored all recorded words
+vocabulary = np.array(['апартамент', 'кола', 'къща'])
 
 
 # Detection and color handling

@@ -17,7 +17,7 @@ tb_checker = TensorBoard(log_dir = logs_dir)
 
 def main():
     
-    X_train, y_train, result = data_main()
+    X_train, X_test, y_train, y_test, result = data_main()
 
     # Neural model is Long short-term memory (LSTM). It's used for better performance of Sequential model training
     # Defining the model as Sequential (The Sequential model is a linear stack of layers)
@@ -26,7 +26,7 @@ def main():
     # Add layers. Density is customizable. ReLu is used, because of it's simplicity during training
     # Since TF with LSTM is used, first 2 layers have return sequences set on True and last one on False
     # ADD! Set dimensions, according to the shape of the training data
-    model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (20, 1662)))
+    model.add(LSTM(64, return_sequences = True, activation = 'relu', input_shape = (30, 1662)))
     model.add(LSTM(128, return_sequences = True, activation = 'relu'))
     model.add(LSTM(64, return_sequences = False, activation = 'relu'))
 

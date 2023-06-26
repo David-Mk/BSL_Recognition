@@ -9,6 +9,8 @@ import time
 import mediapipe as mp
 import tensorflow as tf
 from keras.models import load_model
+from PIL import ImageFont, ImageDraw, Image
+
 
 from frame_collection import detection, extract_keypoints, landmarks, actions
 
@@ -23,7 +25,7 @@ mp_holistic = mp.solutions.holistic
 # model.load_weights('recognition.h5')
 loaded_model = load_model('recognition.h5')
 
-#words_history = open('detected_words.txt', 'w') 
+words_history = open('detected_words.txt', 'w') 
 
 # Possiblities box
 def prober(res, actions, input_frame):
@@ -71,10 +73,10 @@ def main():
             sequence.append(keypoints) #better then insert
             
             # Number of sequences should be the same as sequences_length in frame_collection.py
-            sequence = sequence[-20:]
+            sequence = sequence[-30:]
             
             # ADD! Smooth transition between frames
-            if len(sequence) == 20:
+            if len(sequence) == 30:
                 
                 res = loaded_model.predict(np.expand_dims(sequence, axis=0))[0]
                 print(actions[np.argmax(res)])
@@ -94,8 +96,8 @@ def main():
                 # Get last 5 values of predictions        
                 if len(sentence) > 5:
                     sentence = sentence[-5:]
-
-                #words_history.write(' '.join(sentence) + ' ')
+                    
+                words_history.write(' '.join(sentence) + ' ')
                 
                 # Draw possibilities chart
                 image = prober(res, actions, image)
