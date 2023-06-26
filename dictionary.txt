@@ -1,5 +1,61 @@
-Current words (Bulgarian-English translation):
+Current words (English-Bulgarian translation):
 
+# A
 apartament : апартамент;
+
+# B
+
+# C
 car : кола;
+
+# D
+
+# E
+
+# F
+
+# G
+
+# H
 home : дом/къща;
+healthy : здрав;
+
+# I
+
+# J
+
+# K
+
+# L
+
+# M
+
+# N
+
+# O
+
+# P
+
+# Q
+
+# R
+
+# S
+sick : болен
+
+# T
+treatment : лечение
+
+# U
+
+# V
+
+# W
+
+# X
+
+# Y
+
+# Z
+
+
