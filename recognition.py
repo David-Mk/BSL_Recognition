@@ -99,12 +99,19 @@ def main():
                     
                 words_history.write(' '.join(sentence) + ' ')
                 
-                # Draw possibilities chart
-                image = prober(res, actions, image)
+                # Draw possibilities chart (works only for latin letters)
+                #image = prober(res, actions, image)
+                
+                # Possible cyrillic font on display
+                pil_image = Image.fromarray(image)
+                font = ImageFont.truetype("Projects/BSL_Recognition/source/OpenSans-Light.ttf", 35)
+                draw = ImageDraw.Draw(pil_image)
+                draw.text((10, 30), ' '.join(sentence), font=font, fill=128)
+                image = np.asarray(pil_image)
 
-            # Draw rectangle and text on camera feed
-            cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
-            cv2.putText(image, ' '.join(sentence), (3,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            # Draw rectangle and text on camera feed (works only for latin letters)
+            #cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
+            #cv2.putText(image, ' '.join(sentence), (3,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
                     
             # Show the screen    
