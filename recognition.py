@@ -94,8 +94,8 @@ def main():
                             sentence.append(actions[np.argmax(res)])
 
                 # Get last 5 values of predictions        
-                if len(sentence) > 5:
-                    sentence = sentence[-5:]
+                if len(sentence) > 3:
+                    sentence = sentence[-3:]
                     
                 words_history.write(' '.join(sentence) + ' ')
                 

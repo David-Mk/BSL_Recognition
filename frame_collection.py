@@ -17,7 +17,7 @@ mp_holistic = mp.solutions.holistic
 DATA_PATH = os.path.join('bsl_data')
 
 # Frame models (each model is word, letter or number from BSL dictionary) 
-actions = np.array(['болен', 'здрав', 'лечение', 'апартамент', 'къща'])
+actions = np.array(['болен', 'здрав', 'лечение', 'апартамент', 'къща', ' '])
 
 # Number of videos and videos length. For all recordings, numbers shall be the same
 sequences_count = 30
@@ -31,7 +31,7 @@ for a in actions:
             pass
 
 # Here are stored all recorded words
-vocabulary = np.array(['апартамент', 'къща', 'болен', 'здрав', 'лечение'])
+vocabulary = np.array(['апартамент', 'къща', 'болен', 'здрав', 'лечение', ' '])
 
 
 # Detection and color handling
@@ -79,38 +79,7 @@ def landmarks(image, result):
 
 # Add coordinates and points to arrays
 def extract_keypoints(result):
-
-    # OPTION WITHOUT LOGICAL CONTROL (nor reliable, because when fuction fails to extract landamrks, recording is throwing an exception)
-    #face = []
-    #
-    #face = np.array([[r.x, r.y, r.z, r.visibility]])
-    #
-    #for r in result.face_landmarks.landmark:
-    #
-    #    data = np.array([r.x, r.y, r.z])
-    #    face.append(data)
-    #
-    #body = []
-    #
-    #for r in result.pose_landmarks.landmark:
-    #
-    #    data = np.array([r.x, r.y, r.z, r.visibility])
-    #    body.append(data)
-    #
-    #lhand = []
-    #
-    #for r in result.left_hand_landmarks.landmark:
-    #
-    #    data = np.array([r.x, r.y, r.z])
-    #    lhand.append(data)
-    #
-    #rhand = []
-    #
-    #for r in result.right_hand_landmarks.landmark:
-    #
-    #    data = np.array([r.x, r.y, r.z])
-    #    rhand.append(data)
-    
+  
     # Add points to arrays and handling undetected ot unregognized parts
     body = np.array([[r.x, r.y, r.z, r.visibility] 
                     for r in result.pose_landmarks.landmark]).flatten() if result.pose_landmarks else np.zeros(132)
@@ -126,7 +95,7 @@ def extract_keypoints(result):
     
     return np.concatenate([body, face, rhand, lhand])
 
-# Camera capture. In case of errors, try swap number inside (camera index) or change them with recognition.py
+# Camera capture. In case of errors, try swap number inside (camera index) or change them with recognition.py. When recording - set on 0, when using recognition - 1
 capture = cv2.VideoCapture(1)
 
 def main():
